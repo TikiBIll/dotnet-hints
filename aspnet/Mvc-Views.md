@@ -1,7 +1,12 @@
 ASP.NET Mvc 6
 =============
 
-Controller Source Code w/documentation: https://github.com/aspnet/Mvc/blob/dev/src/Microsoft.AspNetCore.Mvc.ViewFeatures/Controller.cs
+Controller Source Code w/documentation:
+https://github.com/aspnet/Mvc/blob/dev/src/Microsoft.AspNetCore.Mvc.ViewFeatures/Controller.cs
+
+Changing the folder for views (aka feature folder structure):
+https://scottsauber.com/2016/04/25/feature-folder-structure-in-asp-net-core/
+
 
 By default, the view name will match the method name:
 ```c#
