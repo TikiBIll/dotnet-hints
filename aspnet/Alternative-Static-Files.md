@@ -2,7 +2,7 @@ Alternative/Shared Static File Path in ASP.Net
 =======================================
 In Startup.cs:
 
-```
+```c#
 //using for our custom static path.
 using Microsoft.AspNet.StaticFiles;
 using Microsoft.AspNet.FileProviders;
