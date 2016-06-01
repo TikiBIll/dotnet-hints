@@ -4,8 +4,8 @@ In Startup.cs:
 
 ```c#
 //using for our custom static path.
-using Microsoft.AspNet.StaticFiles;
-using Microsoft.AspNet.FileProviders;
+using Microsoft.AspNetCore.Bilder;
+using Microsoft.Extensions.FileProviders;
 using System.IO;
 
 ...
@@ -17,12 +17,12 @@ if(Directory.Exists(altStatic)){
 app.UseStaticFiles(); //Also check the wwwroot directory after our shared directory.
 ```
 
-And in the dependencies of the project.json (valid on May 2, 2016):
+And in the dependencies of the project.json (valid on May 31, 2016):
 ```
-"Microsoft.AspNet.FileProviders.Abstractions": "1.0.0-rc1-final"
+"Microsoft.AspNet.FileProviders.Abstractions": "1.0.0-rc2-final"
 ```
 
 This is useful for when you have e.g. an existing apache httpd server running and want to share static
-files. Obviously of little use for containers.
+files with other web pages. Obviously of little use for containers.
 
 
