@@ -1,5 +1,9 @@
 Alternative/Shared Static File Path in ASP.Net
 =======================================
+
+asp.net information: https://docs.asp.net/en/latest/fundamentals/static-files.html
+
+
 In Startup.cs:
 
 ```c#
