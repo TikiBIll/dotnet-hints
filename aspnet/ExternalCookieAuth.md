@@ -1,7 +1,7 @@
 ASP.NET External Cookie Authentication
 ==============================
 
-Full code example on how to use an authorization cookie generated out of ASP.NET to authenticate a user.
+Full code example on how to use an authorization cookie generated outside of ASP.NET to authenticate a user.
 
 Useful Links:
 * Issue with more links, description: https://github.com/MohammadYounes/MVC5-MixedAuth/issues/20
@@ -9,16 +9,7 @@ Useful Links:
 
 In Startup.cs:
 ```c#
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationScheme = ExternalCookieAuth.aspAuthCookieSuffix,
-                //LoginPath = new PathString("/Account/Unauthorized/"), //Need "using Microsoft.AspNetCore.Http;" for PathString
-                //AccessDeniedPath = new PathString("/Account/Forbidden/"),
-                AutomaticAuthenticate = true, //Needs to be true for external auth-cookie.
-                AutomaticChallenge = false, //this flag indicates that the middleware should redirect the browser to the LoginPath or AccessDeniedPath when authorization fails.
-            });
 
-            //After app.UseCookieAuthentication
             app.ExternalCookieAuth();
 ```
 
@@ -53,17 +44,6 @@ namespace Custom.Http.Auth
         /// </summary>
         private readonly string extAuthCookieName = "InsecureAuth"; //Because in this demo its not encrypted or hashed.
 
-        /// <summary>
-        /// asp.net will name the cookie e.g. ".AspNetCore.ExternalAuth" if this value
-        /// is set to ExternalAuth.
-        /// 
-        /// Since it is a suffix, it could be named the same as our external auth
-        /// cookie, it is named differently for demonstration purposes.
-        /// 
-        /// Static field so that we can access it from Startup.cs as the 
-        /// CookieAuthenticationOptions.AuthenticationScheme has to match.
-        /// </summary>
-        public static string aspAuthCookieSuffix = "ExternalAuth";
 
         public ExternalCookieAuth(RequestDelegate next, ILoggerFactory loggerFactory)
         {
@@ -96,9 +76,11 @@ namespace Custom.Http.Auth
                         };
 
                         //Important point, by naming the ClaimsIdentity (second parameter), it sets isAuthenticated to true.
+                        //See https://github.com/dotnet/corefx/blob/master/src/System.Security.Claims/src/System/Security/Claims/ClaimsIdentity.cs
                         ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "SomeClaimName");
-                        var user = new ClaimsPrincipal(claimsIdentity);
-                        await context.Authentication.SignInAsync(aspAuthCookieSuffix, user);
+
+                        //Now replace the (default) user claim with our new one.
+                        context.User = new ClaimsPrincipal(claimsIdentity);                            
                     }
                 }
             }
