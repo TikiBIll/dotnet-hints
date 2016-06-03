@@ -42,7 +42,7 @@ namespace Custom.Http.Auth
         /// <summary>
         /// The name of the cookie set by another app/web-page.
         /// </summary>
-        private readonly string extAuthCookieName = "InsecureAuth"; //Because in this demo its not encrypted or hashed.
+        private readonly string extAuthCookieName = "InsecureAuth"; //Because in this demo it's not encrypted or hashed.
 
 
         public ExternalCookieAuth(RequestDelegate next, ILoggerFactory loggerFactory)
@@ -95,4 +95,14 @@ namespace Custom.Http.Auth
         }
     }
 }
+```
+Then to access the claims in MVC/Razor pages:
+```c#
+@using System.Security.Claims;
+...
+@if( @User.Identity.IsAuthenticated ){
+Hello @User.Claims?.Where( c => c.Type.Equals(ClaimTypes.WindowsAccountName)).FirstOrDefault()?.Value,
+you seem @User.Claims?.Where( c => c.Type.Equals("Mood")).FirstOrDefault()?.Value. <br />
+}
+
 ```
